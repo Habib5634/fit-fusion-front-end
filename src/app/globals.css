@@ -1,22 +1,37 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+
+@theme {
+  --color-primary: #003f8a;
+  --color-dark: #333333;
+  --color-orange: #9c3e12;
+  --color-orange2: #ff6600;
+  --color-yellow: #ffa500;
+  --color-gray: #d6d4d4;
+  --color-blue: #2d3e50;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.bg-herobg {
+  background-image: url('/assets/herobg1.png');
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.bg-herobg2 {
+  background-image: url('/assets/herobg2.png');
+}
+.bg-herobg3 {
+  background-image: url('/assets/herobg3.png');
+}
+.bg-herobg4 {
+  background-image: url('/assets/herobg4.png');
+}
+.bg-herobg5 {
+  background-image: url('/assets/herobg5.png');
+}
+.bg-herobg6 {
+  background-image: url('/assets/herobg6.png');
+}
+.bg-blog {
+  background-image: url('/assets/blog1.jpg');
 }
 
 body {
