@@ -1,3 +1,5 @@
+'use client'
+import Link from 'next/link';
 import React from 'react'
 import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 const Footer = () => {
@@ -11,17 +13,16 @@ const Footer = () => {
                     <div>
                         <h4 className="font-bold">Quick Links</h4>
                         <ul className="text-gray-400 text-sm">
-                            <li><a href="#" className="hover:text-yellow-400">Home</a></li>
-                            <li><a href="#" className="hover:text-yellow-400">About Us</a></li>
-                            <li><a href="#" className="hover:text-yellow-400">Contact Us</a></li>
+                            <Link href={"/home"}><li href="#" className="hover:text-yellow-400">Home</li></Link>
+                            <Link href={"/about"}><li href="#" className="hover:text-yellow-400">About Us</li></Link>
+                            <Link href={"/contact"}><li href="#" className="hover:text-yellow-400">Contact Us</li></Link>
                         </ul>
                     </div>
                     <div>
                         <h4 className="font-bold">Resources</h4>
                         <ul className="text-gray-400 text-sm">
-                            <li><a href="#" className="hover:text-yellow-400">Blog</a></li>
-                            <li><a href="#" className="hover:text-yellow-400">Success Stories</a></li>
-                            <li><a href="#" className="hover:text-yellow-400">Find a Nutritionist</a></li>
+                            <Link href={"/blog"}><li href="#" className="hover:text-yellow-400">Blog</li></Link>
+                            <Link href={"/nutritionist"}><li href="#" className="hover:text-yellow-400">Find a Nutritionist</li></Link>
                         </ul>
                     </div>
                     <div>

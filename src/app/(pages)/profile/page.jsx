@@ -6,6 +6,8 @@ import { FiEdit, FiSave, FiLock, FiUser, FiPhone, FiHome, FiTarget, FiInfo, FiMa
 import { toast } from 'react-hot-toast'
 import { API_URL, getAuthHeaders } from '@/app/utils/apiUrl'
 import { fetchUserData } from '@/app/Store/Actions/userAction'
+import Footer from '@/app/components/Footer'
+import Navbar from '@/app/components/Navbar'
 
 const ProfilePage = () => {
   const { userData } = useSelector((state) => state.userData)
@@ -88,6 +90,8 @@ const ProfilePage = () => {
   // }
 
   return (
+    <>
+    <Navbar/>
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         {/* Profile Header */}
@@ -382,7 +386,7 @@ const ProfilePage = () => {
 
       {/* Password Change Modal */}
       {showPasswordModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
@@ -451,6 +455,8 @@ const ProfilePage = () => {
         </div>
       )}
     </div>
+<Footer/>
+    </>
   )
 }
 

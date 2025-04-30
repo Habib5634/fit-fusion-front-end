@@ -1,10 +1,15 @@
 'use client'
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { fetchNutritionists } from "@/app/Store/ReduxSlice/nutritionistSlice";
+import toast from "react-hot-toast";
+import { bookNutritionist, resetBookingState } from "@/app/Store/ReduxSlice/bookingSlice";
+import BookingModal from "@/app/components/Nutritionist/BookingModal";
+import { openModal } from "@/app/Store/ReduxSlice/modalSlice";
 const teamMembers = [
   {
     name: "Dr. Wafa Noor",
@@ -61,6 +66,69 @@ const TeamSection = () => {
         autoplaySpeed: 3000,
         arrows: true,
       };
+      const dispatch = useDispatch();
+      const { data: nutritionists, loading, error } = useSelector((state) => state.nutritionists);
+      const { loading: bookingLoading, error: bookingError, success: bookingSuccess } = useSelector((state) => state.booking);
+      const {isAuthenticated} = useSelector((state)=>state.userData)
+      const [isModalOpen, setIsModalOpen] = useState(false);
+      const [selectedNutritionist, setSelectedNutritionist] = useState(null);
+      const [formData, setFormData] = useState({
+        problems: '',
+        details: ''
+      });
+    
+      useEffect(() => {
+        dispatch(fetchNutritionists());
+      }, [dispatch]);
+    
+      useEffect(() => {
+        if (bookingSuccess) {
+          toast.success('Booking created successfully!');
+          dispatch(resetBookingState());
+          setIsModalOpen(false);
+        }
+        if (bookingError) {
+          toast.error(bookingError);
+          dispatch(resetBookingState());
+        }
+      }, [bookingSuccess, bookingError, dispatch]);
+    
+      const handleOpenModal = (nutritionist) => {
+        if(isAuthenticated){
+
+          setSelectedNutritionist(nutritionist);
+          setIsModalOpen(true);
+        }else{
+          dispatch(openModal());
+        }
+      };
+  
+      const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedNutritionist(null);
+        setFormData({ problems: '', details: '' });
+      };
+    
+      const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+          ...prev,
+          [name]: value
+        }));
+      };
+    
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!selectedNutritionist) return;
+        
+        const bookingData = {
+          nutritionistId: selectedNutritionist._id,
+          problems: formData.problems,
+          details: formData.details
+        };
+        
+        dispatch(bookNutritionist(bookingData));
+      };
     
 
   return (
@@ -86,16 +154,16 @@ const TeamSection = () => {
         {/* Slider */}
         <div className="mt-8 max-w-3xl mx-auto">
         <Slider {...settings}>
-            {teamMembers.map((member, index) => (
+            {nutritionists?.map((member, index) => (
               <div key={index} className="p-6">
                 <div className="bg-white border-2 border-yellow rounded-lg p-6 text-center">
                   <img
-                    src={member.image}
-                    alt={member.name}
+                    src={member.profile}
+                    alt={member.fullName}
                     className="w-24 h-24 mx-auto rounded-full"
                   />
                   <h4 className="text-lg font-bold text-gray-900 mt-4">
-                    {member.name}
+                    {member.fullName}
                   </h4>
                   <p className="text-sm text-gray-700 font-semibold mt-1">
                     Specialization: {member.specialization}
@@ -103,7 +171,7 @@ const TeamSection = () => {
                   <p className="text-gray-600 text-sm mt-2">
                     {member.description}
                   </p>
-                  <button className="mt-4 bg-orange text-white font-bold py-2 px-4 rounded">
+                  <button onClick={() => handleOpenModal(member)} className="mt-4 bg-orange text-white font-bold py-2 px-4 rounded">
                     BOOK CONSULTATION
                   </button>
                 </div>
@@ -112,6 +180,18 @@ const TeamSection = () => {
           </Slider>
         </div>
       </div>
+
+       {/* Booking Modal */}
+       {isModalOpen && selectedNutritionist && (
+       <BookingModal
+       selectedNutritionist={selectedNutritionist}
+       handleSubmit={handleSubmit}
+       handleCloseModal={handleCloseModal}
+       formData={formData}
+       handleInputChange={handleInputChange}
+       bookingLoading={bookingLoading}
+       />
+      )}
     </section>
   );
 };

@@ -13,7 +13,7 @@ const UserDropdown = ({ handleShowModal }) => {
   const dropdownRef = useRef(null);
   const router = useRouter();
   const dispatch = useDispatch();
-  console.log(userData)
+  
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -106,21 +106,29 @@ const UserDropdown = ({ handleShowModal }) => {
             >
               Profile
             </motion.button>
+            {userData?.userType === "member"&&
             <motion.button
-              whileHover={{ x: 5 }}
+            whileHover={{ x: 5 }}
               onClick={() => {
                 router.push('/my-bookings');
                 setIsOpen(false);
               }}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-            >
+              >
               My Bookings
             </motion.button>
+            }
             {userData?.userType !== "member" && (
               <motion.button
                 whileHover={{ x: 5 }}
                 onClick={() => {
-                  router.push("/dashboard");
+                  if(userData?.userType==="admin"){
+
+                    router.push("/dashboard");
+                  }else{
+                    router.push("/dashboard/members");
+
+                  }
                   setIsOpen(false);
                 }}
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"

@@ -118,7 +118,7 @@ const DashboardLayout = ({ children, pageTitle }) => {
                             >
                                 <div className='flex items-center gap-2 leading-none'>
                                     <FaUsers size={20} />
-                                    {isSidebarOpen && "Users"} {/* Show text only when sidebar is open */}
+                                    {isSidebarOpen && "Members"} {/* Show text only when sidebar is open */}
                                 </div>
                             </Link>
                         </li>
@@ -234,8 +234,8 @@ const DashboardLayout = ({ children, pageTitle }) => {
             <div className={`${(window.innerWidth < 768 && !isSidebarOpen) && 'pl-16'} border-l border-gray1 flex-1 overflow-x-hidden relative`}>
                 <div className='h-20 border-b  pl-10 pr-4 flex justify-between items-center'>
                     <div>
-                        <h1 className='text-blue font-bold text-[18px] md:text-3xl'>Admin Dashboard</h1>
-                        <h1 className='text-black font-bold text-[16px]'>WelcomeAdmin </h1>
+                        <h1 className='text-blue font-bold text-[18px] md:text-3xl capitalize'>{userData?.userType} Dashboard</h1>
+                        <h1 className='text-black font-bold text-[16px] capitalize'>Welcome {userData?.fullName} </h1>
 
                     </div>
                     <div className='flex items-center gap-4'>

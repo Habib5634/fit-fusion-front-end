@@ -33,6 +33,7 @@ const AuthComponent = () => {
         gender: "",
         dob: "",
         height: "",
+        contact: "",
         weight: "",
         goals: "",
         newPassword: "",
@@ -69,14 +70,33 @@ const AuthComponent = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+
+        // Validation for contact - only allow numbers and max 11 digits
+        if (name === 'contact') {
+            if (/^\d*$/.test(value) && value.length <= 11) {
+                setFormData({ ...formData, [name]: value });
+            }
+        }
+        // Validation for height - max 8 characters
+        else if (name === 'height') {
+            // Height validation - allow numbers and optional decimal point
+            if (/^\d*\.?\d*$/.test(value)) {
+                // Only update if value is empty or <= 8
+                if (value === '' || parseFloat(value) <= 8) {
+                    setFormData({ ...formData, [name]: value });
+                }
+            }
+        }
+        // For all other fields
+        else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true)
         setError("")
-        console.log(formData)
         try {
             let response;
             switch (mode) {
@@ -90,6 +110,7 @@ const AuthComponent = () => {
                         dob: formData.dob,
                         height: formData.height,
                         weight: formData.weight,
+                        contact: formData.contact,
                         goals: formData.goals
                     });
                     console.log(response)
@@ -295,15 +316,18 @@ const AuthComponent = () => {
                             />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label className="text-18 text-yellow ">Height</label>
+                            <label className="text-18 text-yellow">Height (in feet)</label>
                             <input
                                 type="text"
                                 name="height"
-                                placeholder="john"
+                                placeholder="e.g. 5.8 ft"
                                 value={formData?.height}
                                 className="ring-2 ring-black rounded-md p-4"
                                 onChange={handleChange}
                             />
+                            {parseFloat(formData?.height) > 8 && (
+                                <p className="text-red-500 text-sm">Height cannot exceed 8 ft</p>
+                            )}
                         </div>
                         <div className="flex flex-col gap-2">
                             <label className="text-18 text-yellow ">Weight</label>
@@ -315,6 +339,22 @@ const AuthComponent = () => {
                                 className="ring-2 ring-black rounded-md p-4"
                                 onChange={handleChange}
                             />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <label className="text-18 text-yellow">Contact</label>
+                            <input
+                                type="tel"  // Changed from number to tel for better mobile input
+                                name="contact"
+                                placeholder="03135634882"
+                                value={formData?.contact}
+                                className="ring-2 ring-black rounded-md p-4"
+                                onChange={handleChange}
+                                maxLength={11}
+                                pattern="[0-9]{11}"
+                            />
+                            {formData?.contact?.length !== 11 && formData?.contact && (
+                                <p className="text-red-500 text-sm">Contact must be exactly 11 digits</p>
+                            )}
                         </div>
                         <div className="flex flex-col gap-2">
                             <label className="text-18 text-yellow">Goals</label>
@@ -332,8 +372,6 @@ const AuthComponent = () => {
                                 <option value="Improve Endurance">Improve Endurance</option>
                                 <option value="Weight Gain">Weight Gain</option>
                                 <option value="Boost Immunity">Boost Immunity</option>
-                                <option value="other">Other</option>
-                                <option value="other">Other</option>
                                 <option value="other">Other</option>
                             </select>
                         </div>

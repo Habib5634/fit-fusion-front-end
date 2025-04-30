@@ -133,7 +133,7 @@ const UsersPage = () => {
         try {
             const { data } = await axios.post(`${API_URL}/user/register`, {
                 ...addFormData,
-                userType: 'nutritionist'
+                
             });
             toast.success('Nutritionist added successfully');
             setNutritionists([...nutritionists, data.user]);
@@ -162,7 +162,7 @@ const UsersPage = () => {
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">Users Management</h1>
+                <h1 className="text-2xl font-bold">Members Management</h1>
                 <button
                     onClick={() => setShowAddModal(true)}
                     className="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
@@ -215,10 +215,10 @@ const UsersPage = () => {
             {/* Add Nutritionist Modal */}
             {showAddModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+                    <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
                         <div className="p-6">
                             <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-xl font-semibold">Add Nutritionist</h2>
+                                <h2 className="text-xl font-semibold">Add User</h2>
                                 <button
                                     onClick={() => setShowAddModal(false)}
                                     className="text-gray-500 hover:text-gray-700"
@@ -227,7 +227,7 @@ const UsersPage = () => {
                                 </button>
                             </div>
                             <form onSubmit={handleAddSubmit}>
-                                <div className="space-y-4">
+                                <div className="grid grid-cols-2 gap-5">
                                     <div>
                                         <label className="block text-gray-700 mb-1">Full Name</label>
                                         <input
@@ -276,6 +276,7 @@ const UsersPage = () => {
                                         <label className="block text-gray-700 mb-1">Date Of Birth</label>
                                         <input
                                             name="dob"
+                                            type='date'
                                             value={addFormData.dob}
                                             onChange={handleAddFormChange}
                                             className="w-full p-2 border rounded"
@@ -381,159 +382,150 @@ const UsersPage = () => {
 
             {/* Edit Nutritionist Modal */}
             {showEditModal && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
-                        <div className="p-6">
-                            <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-xl font-semibold">Edit User</h2>
-                                <button
-                                    onClick={() => setShowEditModal(false)}
-                                    className="text-gray-500 hover:text-gray-700"
-                                >
-                                    &times;
-                                </button>
-                            </div>
-                            <form onSubmit={handleEditSubmit}>
-                                <div className="space-y-4">
-                                    <div>
-                                        <label className="block text-gray-700 mb-1">Full Name</label>
-                                        <input
-                                            type="text"
-                                            name="fullName"
-                                            value={editFormData.fullName}
-                                            onChange={handleEditFormChange}
-                                            className="w-full p-2 border rounded"
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-700 mb-1">User Name</label>
-                                        <input
-                                            type="text"
-                                            name="userName"
-                                            value={editFormData.userName}
-                                            onChange={handleEditFormChange}
-                                            className="w-full p-2 border rounded"
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-700 mb-1">Email</label>
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            value={editFormData.email}
-                                            onChange={handleEditFormChange}
-                                            className="w-full p-2 border rounded"
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-700 mb-1">Date Of Birth</label>
-                                        <input
-                                            name="dob"
-                                            type='date'
-                                            value={editFormData.dob}
-                                            onChange={handleAddFormChange}
-                                            className="w-full p-2 border rounded"
-                                        />
-                                    </div>
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[90vh] overflow-y-auto">
+      <div className="p-6">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold">Edit User</h2>
+          <button
+            onClick={() => setShowEditModal(false)}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            &times;
+          </button>
+        </div>
+        <form onSubmit={handleEditSubmit}>
+          <div className="grid grid-cols-2 gap-5">
+            {/* All inputs should use handleEditFormChange */}
+            <div>
+              <label className="block text-gray-700 mb-1">Full Name</label>
+              <input
+                type="text"
+                name="fullName"
+                value={editFormData.fullName}
+                onChange={handleEditFormChange}
+                className="w-full p-2 border rounded"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 mb-1">User Name</label>
+              <input
+                type="text"
+                name="userName"
+                value={editFormData.userName}
+                onChange={handleEditFormChange}
+                className="w-full p-2 border rounded"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 mb-1">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={editFormData.email}
+                onChange={handleEditFormChange}
+                className="w-full p-2 border rounded"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 mb-1">Date Of Birth</label>
+              <input
+                name="dob"
+                type="date"
+                value={editFormData.dob ? editFormData.dob.split('T')[0] : ''}
+                onChange={handleEditFormChange}
+                className="w-full p-2 border rounded"
+              />
+            </div>
 
-                                    <div className="">
-                                        <label className=" text-gray-700">Gender</label>
-                                        <select
-                                            name="gender"
-                                            className="w-full p-2 border rounded"
-                                            value={editFormData.gender}
-                                            onChange={handleAddFormChange}
-                                        >
-                                            <option value="" disabled selected>
-                                                Select your gender
-                                            </option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                    </div>
-                                    <div className="">
-                                        <label className=" ">User Type</label>
-                                        <select
-                                            name="userType"
-                                            className="w-full p-2 border rounded"
-                                            value={editFormData.userType}
-                                            onChange={handleAddFormChange}
-                                        >
-                                            <option value="" disabled selected>
-                                                Select your UserType
-                                            </option>
-                                            <option value="admin">Admin</option>
-                                            <option value="nutritionist">Nutritionist</option>
-                                            <option value="member">Member</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-700 mb-1">Height</label>
-                                        <input
-                                            type="text"
-                                            name="height"
-                                            value={editFormData.height}
-                                            onChange={handleAddFormChange}
-                                            className="w-full p-2 border rounded"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-700 mb-1">Weight</label>
-                                        <input
-                                            name="weight"
-                                            value={editFormData.weight}
-                                            onChange={handleAddFormChange}
-                                            className="w-full p-2 border rounded"
-                                            rows="3"
-                                        />
-                                    </div>
-                                    <div className="">
-                                        <label className="text-gray-700 ">Goals</label>
-                                        <select
-                                            name="goals"
-                                            className="w-full p-2 border rounded"
-                                            value={editFormData.goals}
-                                            onChange={handleAddFormChange}
-                                        >
-                                            <option value="" disabled selected>
-                                                Select your Goals
-                                            </option>
-                                            <option value="Weight Loss">Weight Loss</option>
-                                            <option value="Muscle Gain">Muscle Gain</option>
-                                            <option value="Improve Indurance">Improve Indurance</option>
-                                            <option value="weight Gain">weight Gain</option>
-                                            <option value="Boost Imunity">Boost Imunity</option>
-                                            <option value="Other">Other</option>
-                                        </select>
-                                    </div>
-                                    
-                                    
-                                    
-                                </div>
-                                <div className="flex justify-end space-x-4 mt-6">
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowEditModal(false)}
-                                        className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                                    >
-                                        Save Changes
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <div>
+              <label className="text-gray-700">Gender</label>
+              <select
+                name="gender"
+                className="w-full p-2 border rounded"
+                value={editFormData.gender}
+                onChange={handleEditFormChange}
+              >
+                <option value="">Select your gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-gray-700">User Type</label>
+              <select
+                name="userType"
+                className="w-full p-2 border rounded"
+                value={editFormData.userType}
+                onChange={handleEditFormChange}
+              >
+                <option value="">Select your UserType</option>
+                <option value="admin">Admin</option>
+                <option value="nutritionist">Nutritionist</option>
+                <option value="member">Member</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-gray-700 mb-1">Height</label>
+              <input
+                type="text"
+                name="height"
+                value={editFormData.height}
+                onChange={handleEditFormChange}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 mb-1">Weight</label>
+              <input
+                name="weight"
+                value={editFormData.weight}
+                onChange={handleEditFormChange}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="text-gray-700">Goals</label>
+              <select
+                name="goals"
+                className="w-full p-2 border rounded"
+                value={editFormData.goals}
+                onChange={handleEditFormChange}
+              >
+                <option value="">Select your Goals</option>
+                <option value="Weight Loss">Weight Loss</option>
+                <option value="Muscle Gain">Muscle Gain</option>
+                <option value="Improve Indurance">Improve Indurance</option>
+                <option value="weight Gain">weight Gain</option>
+                <option value="Boost Imunity">Boost Imunity</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div className="flex justify-end space-x-4 mt-6">
+            <button
+              type="button"
+              onClick={() => setShowEditModal(false)}
+              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+)}
 
             {/* Delete Confirmation Modal */}
             {showDeleteModal && (

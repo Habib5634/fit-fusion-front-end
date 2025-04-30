@@ -375,7 +375,7 @@ const NutritionistBookings = () => {
 
               {/* Price Section */}
               <div className="mb-6">
-                <label className="block font-semibold mb-2">Price ($)</label>
+                <label className="block font-semibold mb-2">Price (Rs)</label>
                 <input
                   type="number"
                   min="0"

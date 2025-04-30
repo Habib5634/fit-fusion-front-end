@@ -7,7 +7,7 @@ export const fetchNutritionists = createAsyncThunk(
   'nutritionists/fetchNutritionists',
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${API_URL}/user/users`, getAuthHeaders());
+      const { data } = await axios.get(`${API_URL}/user/nutritionist`);
       // Filter to only get nutritionists
       return data.users.filter(user => user.userType === 'nutritionist');
     } catch (error) {
